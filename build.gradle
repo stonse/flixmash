@@ -1,0 +1,68 @@
+// Establish version and status
+ext.githubProjectName = 'flixmash'
+
+buildscript {
+    repositories { mavenCentral() }
+    apply from: file('gradle/buildscript.gradle'), to: buildscript
+}
+
+allprojects {
+    repositories { mavenCentral() }
+}
+
+apply from: file('gradle/convention.gradle')
+apply from: file('gradle/maven.gradle')
+apply from: file('gradle/check.gradle')
+apply from: file('gradle/license.gradle')
+
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+war {
+    from('resources')  {
+        include '*.properties'
+        into 'WEB-INF/classes/'
+    }
+    webXml = file('src/main/webapp/WEB-INF/web.xml')
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.0'
+   compile 'com.netflix.servo:servo-core:0.4.44'
+       compile 'com.google.inject.extensions:guice-servlet:3.0'
+        compile 'com.google.guava:guava:14.0.1'
+        compile 'com.netflix.archaius:archaius-core:0.5.12'
+        compile 'com.netflix.netflix-commons:netflix-commons-util:0.1.1'
+        compile 'commons-collections:commons-collections:3.2.1'
+        compile 'com.netflix.hystrix:hystrix-core:1.2.5'
+        compile 'com.netflix.hystrix:hystrix-metrics-event-stream:1.2.5'
+        compile 'com.netflix.hystrix:hystrix-servo-metrics-publisher:1.2.5'
+        compile 'com.netflix.ribbon:ribbon-core:0.3.3'
+        compile 'com.netflix.ribbon:ribbon-eureka:0.3.3'
+        compile 'com.netflix.ribbon:ribbon-httpclient:0.3.3'
+         compile 'com.netflix.karyon:karyon-core:2.0.02'
+        compile 'com.netflix.karyon:karyon-admin-web:2.0.02'
+        compile 'com.netflix.karyon:karyon-extensions:1.0.22'
+    runtime 'org.slf4j:slf4j-simple:1.7.0'
+    
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.0.Final'
+    testCompile 'org.jboss.shrinkwrap:shrinkwrap-impl-base:1.1.2'
+    testCompile 'org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:2.0.0'
+    testCompile 'org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-javaee:2.0.0-alpha-3'
+    testRuntime 'org.jboss.arquillian.container:arquillian-tomcat-embedded-7:1.0.0.CR5'
+    testRuntime 'org.apache.tomcat.embed:tomcat-embed-core:7.0.42'
+    testRuntime 'org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.42'
+    testRuntime('org.apache.tomcat.embed:tomcat-embed-jasper:7.0.42') {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+}
+
+jettyRun.doFirst {
+    // use the default port of the ws-backend-simulation module
+    System.setProperty("archaius.deployment.applicationId","flixmash")
+    System.setProperty("archaius.deployment.environment","dev")
+}
+
+jettyRun {
+    httpPort = 8989
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>NetflixOSS Karyon</title>
+</head>
+<body>
+Hello NetflixOSS!
+
+<h1>List of Commands</h1>
+<li><a href="rest/v1/movies/popularMovies">List Popular movies</a></li>
+<li><a href="rest/v1/movies/userMovieLists">All User movie lists</a></li>
+<li><a href="rest/v1/movies/userMovieList/<userid>">User's movie list</a></li>
+
+<!--- 
+<h2>Add Movie</h2>
+<form name="addMovie" method="post" action="rest/v1/movies/userMovieList">
+<input type=text name="userid"></input>
+<input type=text name="movie"></input>
+</form>
+-->
+
+<h2>Set PopularMovies via Dynamic Porperty</h2>
+<form name="setProperty" method="get" action="rest/v1/property">
+Id:<input type=text name="id" value="flixmash.popularMovieList"></input>
+Value:<input type=text name="value" size=100 value="Lord of the Ring,Matrix,Harry Potter,Gravity"></input>
+<input type=submit value="Set Movie Property">
+</form>
+
+</body>
+</html>
